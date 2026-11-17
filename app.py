@@ -1,9 +1,22 @@
-
+import os
 import streamlit as st
+
 from dotenv import load_dotenv
 
-
 load_dotenv()
+
+try:
+    for key in (
+        "APPWRITE_ENDPOINT",
+        "APPWRITE_PROJECT_ID",
+        "APPWRITE_API_KEY",
+    ):
+        if key in st.secrets:
+            os.environ[key] = st.secrets[key]
+
+except st.errors.StreamlitSecretNotFoundError:
+    pass
+
 
 from components.sidebar import render_sidebar
 from views.home import show_home
